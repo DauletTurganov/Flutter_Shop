@@ -4,9 +4,11 @@ import 'package:internet_magazin/ui/screens/search_screen.dart';
 import 'package:internet_magazin/models/navbar.dart';
 // import 'helpers/getRecipe.dart';
 import 'package:internet_magazin/models/recipeModel.dart';
+import 'package:internet_magazin/ui/screens/showInfo.dart';
 import 'package:provider/provider.dart';
 import 'package:internet_magazin/ui/screens/helpers/provider.dart';
 import 'dart:async';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class HomePage extends StatelessWidget {
   static String id = 'home_page';
@@ -17,6 +19,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
           children: [
             SearchBar(size: size, searchText: 'WILDCHERRIES',),
@@ -26,7 +29,7 @@ class HomePage extends StatelessWidget {
             // ),
             // ItemsNaProdazhu(),
             //
-            // NavBar()
+            NavBar()
 
           ],
         ),
@@ -47,25 +50,9 @@ class HomePageStateful extends StatefulWidget {
 class _HomePageStatefulState extends State<HomePageStateful> {
 
   // List<Recipe> recipeList;
-  String label;
-  String source;
-  String image;
 
   Widget aecepies;
-
-
-     //
-     // Future <List<Recipe>> getRecipiesNOW()  async{
-     //    GetRecipe getRecipe = GetRecipe();
-     //    await getRecipe.getData(Provider.of<SearchProvider>(context, listen: false).searchItem);
-     //    recipeList = getRecipe.recipies;
-     //    print('Future function was invoked!');
-     //    print(recipeList);
-     //    // print(recipeList);
-     //     return recipeList;
-     //  }
-
-
+  bool showSpinner = false;
 
 
 
@@ -74,174 +61,182 @@ class _HomePageStatefulState extends State<HomePageStateful> {
     var wid = MediaQuery.of(context).size.width;
     var size = MediaQuery.of(context).size.height;
     return Expanded(
-      child: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // ElevatedButton(
-            //   style: ButtonStyle(
-            //     backgroundColor: MaterialStateProperty.all<Color>(Colors.lightBlueAccent),
-            //   ),
-            //   onPressed: () {
-            //     GetRecipe().getData(Provider.of<SearchProvider>(context).searchItem);
-            //   },
-            //
-            //   // color: Colors.lightBlueAccent,
-            //   child: Text(
-            //     'Add',
-            //     style: TextStyle(
-            //         color: Colors.blue
-            //     ),
-            //   ),
-            // ),
+      child: ModalProgressHUD(
+        inAsyncCall: showSpinner,
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // ElevatedButton(
+              //   style: ButtonStyle(
+              //     backgroundColor: MaterialStateProperty.all<Color>(Colors.lightBlueAccent),
+              //   ),
+              //   onPressed: () {
+              //     GetRecipe().getData(Provider.of<SearchProvider>(context).searchItem);
+              //   },
+              //
+              //   // color: Colors.lightBlueAccent,
+              //   child: Text(
+              //     'Add',
+              //     style: TextStyle(
+              //         color: Colors.blue
+              //     ),
+              //   ),
+              // ),
 
-            Container(
-              // height: size * 0.5,
-              child:  ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.lightBlueAccent),
-                ),
-                onPressed:() {
-                  // if (Provider.of<SearchProvider>(context).recipies == null) {
-                  // }
-                  setState(() {
-                      aecepies = Consumer<SearchProvider>(
-                          builder: (context, recept, child) {
-                            return Expanded(
-                                child: Container(
-                                  child: ListView.builder(
-                                    physics: BouncingScrollPhysics(),
-                                    itemCount: recept.recipies.length,
-                                      itemBuilder: (context, index) {
-                                        if (recept.recipies != null) {
-                                          return Padding(
-                                            padding: EdgeInsets.all(30),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text(recept.recipies[index].label,
-                                                 style: TextStyle(
-                                                fontSize: 24.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                                ),
-                                                SizedBox(
-                                                  height: 25,
-                                                ),
-                                                Image.network(recept.recipies[index].image),
-                                                SizedBox(
-                                                  height: 25,
-                                                ),
-                                                Container(
-                                                  constraints: BoxConstraints(
-                                                    maxHeight: size * 0.5,
-                                                    minHeight: size * 0.4,
-                                                  ),
-                                                  child: ListView.builder(
-                                                      shrinkWrap: true,
-                                                      physics: NeverScrollableScrollPhysics(),
-                                                      itemCount: recept.recipies[index].ingredientLines.length,
-                                                      itemBuilder: (context, item) {
-                                                      return Padding(
-                                                        padding: EdgeInsets.all(20),
-                                                        child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Text(
-                                                                recept.recipies[index].ingredientLines[item],
-                                                            style: TextStyle(
-                                                              fontSize: 16.0,
-                                                              fontWeight: FontWeight.bold,
-                                                            ),
-                                                            ),
-                                                          ]
-                                                        ),
-                                                      );
-                                                  }),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        } else {
-                                          print('null');
-                                        }
-                                        return CircularProgressIndicator();
-                                      }
-                                  ),
-                                ));
-                          }
-                      );
+              Container(
+                // height: size * 0.5,
+                child:  ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.lightBlueAccent),
+                  ),
+                  onPressed:() async{
+                    setState(() {
+                      showSpinner = true;
                     });
-                },
-                // color: Colors.lightBlueAccent,
-                child: Text(
-                  'Search Test',
-                  style: TextStyle(
-                      color: Colors.blue
+                          try {
+                          await Provider.of<SearchProvider>(context, listen: false).getData(Provider.of<SearchProvider>(context, listen: false).searchItems);
+                          setState(() {
+                            aecepies = RecepiesList(size: size);
+                            showSpinner = false;
+                          });
+                          }
+                          catch(e) {
+                          throw (e);
+                          }
+                    // if (Provider.of<SearchProvider>(context).recipies == null) {
+                    // }
+
+                  },
+                  // color: Colors.lightBlueAccent,
+                  child: Text(
+                    'Search Test',
+                    style: TextStyle(
+                        color: Colors.blue
+                    ),
                   ),
                 ),
               ),
-            ),
-             Container(
-               child: aecepies
-             )
-             // Expanded(
-             //   child: Container(
-             //     child: FutureBuilder(
-             //       future: null,
-             //       builder: (context, AsyncSnapshot snapshot) {
-             //         if (snapshot.hasData) {
-             //           print('snapshot has data');
-             //           return Consumer<SearchProvider>(
-             //             builder: (context, receipt, child){
-             //               return ListView.builder(
-             //                   itemBuilder: (context, index) {
-             //                     return Column(
-             //                       children: [
-             //                         Text(receipt.recipies[index].label),
-             //                         Image.network(receipt.recipies[index].image),
-             //                       ],
-             //                     );
-             //                   });
-             //             }
-             //
-             //           );
-             //         } else if (snapshot.hasError) {
-             //           print(snapshot.error);
-             //         }
-             //         return CircularProgressIndicator();
-             //       },
-             //     )
-             //   ),
-             // ),
-
-
-             // FutureBuilder(
-             //    future: Provider.of<SearchProvider>(context).getData(searchItem),
-             //     builder: (context, snapshot) {
-             //      if(snapshot.hasData) {
-             //        print('snapshotHasDATA ${snapshot.data}');
-             //      }else if (snapshot.hasError) {
-             //        print(snapshot.error);
-             //          }
-             //    return CircularProgressIndicator();
-             //    })
-
-
-            // FutureBuilder(
-            //   future: getRecipiesNOW(),
-            //   builder: (context,  AsyncSnapshot<List<Recipe>> snapshot) {
-            //   print('waiting');
-            //   if (snapshot.hasData) {
-            //   print('snapshot has data');
-            //   } else if (snapshot.hasError) {
-            //   print('Error');
-            //   }
-            //   return CircularProgressIndicator();
-            //   }),
+               Divider(
+                 color: Colors.grey,
+                 thickness: 2.0,
+               ),
+               Container(
+                 child: aecepies == null ? aecepies = Text('Search something!',style: TextStyle(color: Colors.purple,fontSize: 24.0, fontWeight: FontWeight.bold),) : aecepies
+               )
 
   ]),
+        ),
       ),
+    );
+  }
+}
+
+class RecepiesList extends StatelessWidget {
+  const RecepiesList({
+    Key key,
+    @required this.size,
+  }) : super(key: key);
+
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<SearchProvider>(
+        builder: (context, recept, child) {
+          return Expanded(
+              child: Container(
+                child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: recept.recipies.length,
+                    itemBuilder: (context, index) {
+                      if (recept.recipies != null) {
+                        return Padding(
+                          padding: EdgeInsets.all(30),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xffF4EBC2),
+                              borderRadius: BorderRadius.circular(20)
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(recept.recipies[index].label,
+                                   style: TextStyle(
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                  ),
+                                  SizedBox(
+                                    height: 25,
+                                  ),
+                                  Image.network(recept.recipies[index].image),
+                                  SizedBox(
+                                    height: 25,
+                                  ),
+                                  Text('Ingredient Lines',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24
+                                  ),),
+                                  Container(
+                                    constraints: BoxConstraints(
+                                      maxHeight: size * 0.4,
+                                      minHeight: size * 0.3,
+                                    ),
+                                    child: ListView.builder(
+                                        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: recept.recipies[index].ingredientLines.length,
+                                        itemBuilder: (context, item) {
+                                        return Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                                recept.recipies[index].ingredientLines[item],
+                                            style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            ),
+                                          ]
+                                        );
+                                    }),
+                                  ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) => ShowInfo());
+                                },
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.lightBlueAccent),
+                                ),
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                    width: size * 0.6,
+                                    alignment: Alignment.center,
+                                    child: Text('Show Info',
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                    ),)
+                                )),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        print('null');
+                      }
+                      return CircularProgressIndicator();
+                    }
+                ),
+              ));
+        }
     );
   }
 }
@@ -334,6 +329,62 @@ class AddvertCard1 extends StatelessWidget {
     );
   }
 }
+
+// Expanded(
+//   child: Container(
+//     child: FutureBuilder(
+//       future: null,
+//       builder: (context, AsyncSnapshot snapshot) {
+//         if (snapshot.hasData) {
+//           print('snapshot has data');
+//           return Consumer<SearchProvider>(
+//             builder: (context, receipt, child){
+//               return ListView.builder(
+//                   itemBuilder: (context, index) {
+//                     return Column(
+//                       children: [
+//                         Text(receipt.recipies[index].label),
+//                         Image.network(receipt.recipies[index].image),
+//                       ],
+//                     );
+//                   });
+//             }
+//
+//           );
+//         } else if (snapshot.hasError) {
+//           print(snapshot.error);
+//         }
+//         return CircularProgressIndicator();
+//       },
+//     )
+//   ),
+// ),
+
+
+// FutureBuilder(
+//    future: Provider.of<SearchProvider>(context).getData(searchItem),
+//     builder: (context, snapshot) {
+//      if(snapshot.hasData) {
+//        print('snapshotHasDATA ${snapshot.data}');
+//      }else if (snapshot.hasError) {
+//        print(snapshot.error);
+//          }
+//    return CircularProgressIndicator();
+//    })
+
+
+// FutureBuilder(
+//   future: getRecipiesNOW(),
+//   builder: (context,  AsyncSnapshot<List<Recipe>> snapshot) {
+//   print('waiting');
+//   if (snapshot.hasData) {
+//   print('snapshot has data');
+//   } else if (snapshot.hasError) {
+//   print('Error');
+//   }
+//   return CircularProgressIndicator();
+//   }),
+
 
 
 

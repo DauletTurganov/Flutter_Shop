@@ -3,6 +3,7 @@ import 'package:internet_magazin/ui/screens/cart_screen.dart';
 import 'package:internet_magazin/ui/screens/home_page.dart';
 import 'package:internet_magazin/ui/screens/profile_screen.dart';
 import 'package:internet_magazin/ui/screens/search_screen.dart';
+import 'package:internet_magazin/ui/screens/showInfo.dart';
 import 'package:provider/provider.dart';
 import 'package:internet_magazin/ui/screens/helpers/provider.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => SearchProvider(),
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
+          debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(),
       home: HomePage(),
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
       routes: {
           HomePage.id: (context) => HomePage(),
           CartScreen.id: (context) => CartScreen(),
+          ShowInfo.id: (context) => ShowInfo(),
           ProfileScreen.id: (context) => CartScreen(),
           SearchScreen.id: (context) => SearchScreen(),
         }

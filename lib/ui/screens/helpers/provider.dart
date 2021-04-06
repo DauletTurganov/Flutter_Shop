@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -17,8 +18,8 @@ class SearchProvider extends ChangeNotifier {
 
   String searchItems;
 
-  List<Recipe> recipies;
-  Widget aecepies;
+  List<Recipe> _recipies;
+
 
 
   // Stream samo() {
@@ -31,6 +32,10 @@ class SearchProvider extends ChangeNotifier {
   //   dataSub.cancel();
   //
   // }
+
+  UnmodifiableListView get recipies {
+    return UnmodifiableListView(_recipies);
+  }
 
 
 
@@ -54,7 +59,7 @@ class SearchProvider extends ChangeNotifier {
 
       // print(jsonData);
       if (jsonData['more'] == true) {
-        recipies = [];
+        _recipies = [];
         print(response.statusCode);
         jsonData['hits'].forEach((e) {
           Recipe recipe = Recipe(
@@ -64,30 +69,28 @@ class SearchProvider extends ChangeNotifier {
             ingredientLines: e['recipe']['ingredientLines']
 
           );
-          recipies.add(recipe);
+          _recipies.add(recipe);
           print(recipe.ingredientLines);
           print(jsonData['hits']);
-          return recipies;
+          return _recipies;
         });
       }
 
     } else {
       print(response.statusCode);
     }
-    print('$recipies total count of recipies is ${recipies.length}');
+
 
 }
 
   void printRecipes() {
-    recipies.forEach((element) {
+    _recipies.forEach((element) {
       print(element.label);
     });
   }
 
   void addItem(value) {
     searchItems = value;
-    print('listened');
-    print('${searchItems} listenning');
     notifyListeners();
   }
 

@@ -59,7 +59,7 @@ class SearchBar extends StatelessWidget {
                     TextField(
                       onChanged: (value) {
                         searchItem = value;
-                        print(searchItem);
+                        Provider.of<SearchProvider>(context, listen: false).addItem(searchItem);
                       },
                       style: TextStyle(
                         fontSize: 20,
@@ -95,29 +95,6 @@ class SearchBar extends StatelessWidget {
 
 
                     ),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(Colors.lightBlueAccent),
-                      ),
-                      onPressed: () {
-                      try {
-                          Provider.of<SearchProvider>(context, listen: false).addItem(searchItem);
-                          Provider.of<SearchProvider>(context, listen: false).getData(searchItem);
-                          print('getting and searching!');
-                        }
-                        catch(e) {
-                          throw (e);
-                        }
-                      },
-
-                      // color: Colors.lightBlueAccent,
-                      child: Text(
-                        'ADD ITEM',
-                        style: TextStyle(
-                            color: Colors.blue
-                        ),
-                      ),
-                    )
 
                   ]
               ),]
