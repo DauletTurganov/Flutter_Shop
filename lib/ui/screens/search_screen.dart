@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:internet_magazin/models/searchBar.dart';
-import 'package:internet_magazin/models/navbar.dart';
+import 'file:///S:/AndroidPRojects/internet_magazin/lib/ui/screens/helpers/searchBar.dart';
 
 class SearchScreen extends StatelessWidget {
   static String id = 'search_screen';

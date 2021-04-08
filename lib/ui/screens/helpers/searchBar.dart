@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:internet_magazin/ui/screens/helpers/provider.dart';
-import 'package:internet_magazin/ui/screens/home_page.dart';
+
 
 
 class SearchBar extends StatelessWidget {
 
-  String searchText;
+  final String searchText;
   String searchItem;
   SearchBar({
     Key key,this.searchText,this.searchItem,

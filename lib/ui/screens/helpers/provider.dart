@@ -1,26 +1,30 @@
-import 'dart:async';
-import 'dart:collection';
-import 'dart:io';
 
+import 'dart:collection';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:internet_magazin/models/recipeModel.dart';
-import 'package:internet_magazin/models/recipeModel.dart';
+
 import 'dart:convert';
 
 class SearchProvider extends ChangeNotifier {
 
-  final _APP_ID = 'd5fd1cb9';
-  final _APP_KEY = 'd4be5788cb0ab6aa1249764f362b8fb9';
+  static const _APP_ID = 'd5fd1cb9';
+  static const _APP_KEY = 'd4be5788cb0ab6aa1249764f362b8fb9';
 
 
-  String searchItems;
+  String _searchItems;
+  String _interSearch;
 
-  List<Recipe> _recipies;
+  List _recipies = [];
+  RecipeItems recept;
 
+  int _from = 0;
+  int _to = 10;
 
+  int totalPageNumber;
+
+  int currentPage = 1;
 
   // Stream samo() {
   //   StreamSubscription<List> dataSub;
@@ -32,26 +36,27 @@ class SearchProvider extends ChangeNotifier {
   //   dataSub.cancel();
   //
   // }
+     String get searchItems => _searchItems;
 
   UnmodifiableListView get recipies {
     return UnmodifiableListView(_recipies);
   }
 
+  // <List<Recipe>>
 
+  Future getData(searchItem) async {
 
-  Future <List<Recipe>> getData(searchItem) async {
-
-    print('getData function was invoked and going to search ${searchItems}');
+    print('getData function was invoked and going to search $_searchItems');
 
 
     http.Response response = await http.get(
         Uri.https('api.edamam.com', '/search',
             {
-              'q': searchItems,
+              'q': _searchItems,
               'app_id': _APP_ID,
               'app_key': _APP_KEY,
-              'from': '0',
-              'to': '10'
+              'from': _from.toString(),
+              'to': _to.toString(),
             }));
 
     if (response.statusCode == 200) {
@@ -59,21 +64,28 @@ class SearchProvider extends ChangeNotifier {
 
       // print(jsonData);
       if (jsonData['more'] == true) {
-        _recipies = [];
         print(response.statusCode);
-        jsonData['hits'].forEach((e) {
-          Recipe recipe = Recipe(
-            label: e['recipe']['label'].toString(),
-            image: e['recipe']['image'],
-            source: e['recipe']['source'].toString(),
-            ingredientLines: e['recipe']['ingredientLines']
-
-          );
-          _recipies.add(recipe);
-          print(recipe.ingredientLines);
-          print(jsonData['hits']);
-          return _recipies;
-        });
+        RecipeItems recipe = RecipeItems.fromJson(jsonData);
+        print(recipe);
+        print(recipe.hits[0].recipe.label);
+        // Recipe recipe = Recipe.fromJson(jsonData)
+        // jsonData['hits'].forEach((e) {
+        //   // Recipe recipe = Recipe(
+        //   //   // label: e['recipe']['label'].toString(),
+        //   //   // image: e['recipe']['image'],
+        //   //   // source: e['recipe']['source'].toString(),
+        //   //   // ingredientLines: e['recipe']['ingredientLines']
+        //   //
+        //   // );
+        //   Recipe recipe = Recipe.fromJson(jsonData['hits']['recipe'][e]);
+        //   _recipies.add(recipe);
+        //   print(recipe.ingredientLines);
+        //   print(jsonData['hits']);
+        // });
+        recept = recipe;
+        // _recipies.add(recept);
+        // print(_recipies);
+        // return _recipies;
       }
 
     } else {
@@ -83,19 +95,59 @@ class SearchProvider extends ChangeNotifier {
 
 }
 
-  void printRecipes() {
-    _recipies.forEach((element) {
-      print(element.label);
-    });
-  }
+  // void printRecipes() {
+  //   _recipies.forEach((element) {
+  //     print(element.label);
+  //   });
+  // }
 
   void addItem(value) {
-    searchItems = value;
+    if (value != _searchItems) {
+      _recipies = [];
+      _interSearch = value;
+    }
+      _interSearch = value;
+
     notifyListeners();
   }
 
+  void changeSearchItem(){
+    _searchItems = _interSearch;
+    notifyListeners();
+  }
 
+  void nextPage() {
+    _from = _from + 10;
+    _to = _to + 10;
+    currentPage++;
+    // getData(_searchItems);
+    notifyListeners();
+}
 
+void previousPage() {
+    if( _from == 0) {
+      _from = 0;
+      _to = 10;
+    } else {
+      _from = _from - 10;
+      _to = _to - 10;
+      currentPage--;
+    }
+  // getData(_searchItems);
+  notifyListeners();
+}
 
+void chosePage() {
+    if (_from > 0) {
+      _from = _from * currentPage * 10;
+      _to = _to * currentPage * 10;
+    }
+}
+
+void goToStart() {
+    _from = 0;
+    _to = 10;
+    notifyListeners();
+}
 
 }

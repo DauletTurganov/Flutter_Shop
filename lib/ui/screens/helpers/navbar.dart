@@ -1,8 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:internet_magazin/ui/screens/cart_screen.dart';
-import 'package:internet_magazin/ui/screens/home_page.dart';
-import 'package:internet_magazin/ui/screens/profile_screen.dart';
 import 'package:internet_magazin/ui/screens/search_screen.dart';
 
 class NavBar extends StatelessWidget {

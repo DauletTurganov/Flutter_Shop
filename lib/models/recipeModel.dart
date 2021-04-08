@@ -1,9 +1,9 @@
 class RecipeItems {
   String q;
-  int from;
-  int to;
+  var from;
+  var to;
   bool more;
-  int count;
+  var count;
   List<Hits> hits;
 
   RecipeItems({this.q, this.from, this.to, this.more, this.count, this.hits});
@@ -68,21 +68,21 @@ class Recipe {
   String source;
   String url;
   String shareAs;
-  int yield;
-  List<String> dietLabels;
-  List<String> healthLabels;
-  List<String> cautions;
+  var yield;
+  List dietLabels;
+  List healthLabels;
+  List cautions;
   List ingredientLines;
   List<Ingredients> ingredients;
   double calories;
   double totalWeight;
-  int totalTime;
-  List<String> cuisineType;
-  List<String> mealType;
-  List<String> dishType;
+  var totalTime;
+  List cuisineType;
+  List mealType;
+  List dishType;
   TotalNutrients totalNutrients;
   TotalDaily totalDaily;
-  List<Digest> digest;
+  List digest;
 
   Recipe(
       {this.uri,
@@ -115,10 +115,10 @@ class Recipe {
     url = json['url'];
     shareAs = json['shareAs'];
     yield = json['yield'];
-    dietLabels = json['dietLabels'].cast<String>();
-    healthLabels = json['healthLabels'].cast<String>();
-    cautions = json['cautions'].cast<String>();
-    ingredientLines = json['ingredientLines'].cast<String>();
+    dietLabels = json['dietLabels'];
+    healthLabels = json['healthLabels'];
+    cautions = json['cautions'];
+    ingredientLines = json['ingredientLines'];
     if (json['ingredients'] != null) {
       ingredients = new List<Ingredients>();
       json['ingredients'].forEach((v) {
@@ -128,9 +128,9 @@ class Recipe {
     calories = json['calories'];
     totalWeight = json['totalWeight'];
     totalTime = json['totalTime'];
-    cuisineType = json['cuisineType'].cast<String>();
-    mealType = json['mealType'].cast<String>();
-    dishType = json['dishType'].cast<String>();
+    cuisineType = json['cuisineType'];
+    mealType = json['mealType'];
+    dishType = json['dishType'];
     totalNutrients = json['totalNutrients'] != null
         ? new TotalNutrients.fromJson(json['totalNutrients'])
         : null;
