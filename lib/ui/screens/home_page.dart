@@ -16,10 +16,22 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xff63117F),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+             UserAccountsDrawerHeader(
+                 accountName: Text('Daulet Turganov'),
+                 accountEmail: Text('turganov_1998@mail.ru'))
+          ],
+        ),
+      ),
       resizeToAvoidBottomInset: false,
       body: Column(
           children: [
-            SearchBar(size: size, searchText: 'WILDCHERRIES',),
+            SearchBar(searchText: 'WILDCHERRIES',),
             HomePageStateful(),
             NavBar()
           ],
@@ -39,6 +51,7 @@ class _HomePageStatefulState extends State<HomePageStateful> {
 
   Widget _aecepies;
   bool showSpinner = false;
+  Widget _navigation;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +79,61 @@ class _HomePageStatefulState extends State<HomePageStateful> {
                       await Provider.of<SearchProvider>(context, listen: false).getData(Provider.of<SearchProvider>(context, listen: false).searchItems);
                       setState(() {
                         _aecepies = RecepiesList(size: size);
+                        _navigation = Consumer<SearchProvider>(
+                            builder: (context, provider, child) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+
+                                  ElevatedButton(
+                                      child: Icon(Icons.navigate_before),
+                                      onPressed: () async{
+                                        setState(() {
+                                          showSpinner = true;
+                                          _aecepies = Text('Previuos Page',style: TextStyle(color: Colors.purple,fontSize: 24.0, fontWeight: FontWeight.bold),);
+                                        });
+                                        provider.previousPage();
+                                        await provider.getData(provider.searchItems);
+                                        setState(() {
+                                          _aecepies = RecepiesList(size: size);
+                                          showSpinner = false;
+                                        });
+                                      }
+                                  ),
+                                  ElevatedButton(
+                                      onPressed: () async{
+                                        setState(() {
+                                          showSpinner = true;
+                                          _aecepies = Text('Reset',style: TextStyle(color: Colors.purple,fontSize: 24.0, fontWeight: FontWeight.bold),);
+                                        });
+                                        provider.goToStart();
+                                        await provider.getData(provider.searchItems);
+                                        setState(() {
+                                          _aecepies = RecepiesList(size: size);
+                                          showSpinner = false;
+                                        });},
+                                      child: Text('Reset')
+                                  ),
+                                  ElevatedButton(
+                                    child: Icon(Icons.navigate_next),
+                                    onPressed:() async {
+                                      setState(() {
+                                        showSpinner = true;
+                                        _aecepies = Text('Next Page',style: TextStyle(color: Colors.purple,fontSize: 24.0, fontWeight: FontWeight.bold),);
+                                      });
+                                      provider.nextPage();
+                                      await provider.getData(provider.searchItems);
+                                      // await provider.getData(provider.searchItems);
+                                      setState(() {
+                                        _aecepies = RecepiesList(size: size);
+                                        showSpinner = false;
+                                      });
+                                    } ,),
+                                ],
+                              );
+                            }
+
+                        );
                         showSpinner = false;
                       });
                     }
@@ -85,71 +153,9 @@ class _HomePageStatefulState extends State<HomePageStateful> {
                   ),
                 ),
               ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-
-                  ElevatedButton(
-                      child: Icon(Icons.navigate_before),
-                      onPressed: () async{
-                        setState(() {
-                          showSpinner = true;
-                          _aecepies = null;
-                        });
-                        Provider.of<SearchProvider>(context,listen: false).previousPage();
-                        await Provider.of<SearchProvider>(context, listen: false).getData(Provider.of<SearchProvider>(context, listen: false).searchItems);
-                        setState(() {
-                          _aecepies = RecepiesList(size: size);
-                          showSpinner = false;
-                        });
-
-
-                      }
-                  ),
-
-                  ElevatedButton(
-                  onPressed: () async{
-                              setState(() {
-                              showSpinner = true;
-                              _aecepies = null;
-                              });
-                              Provider.of<SearchProvider>(context,listen: false).goToStart();
-                              await Provider.of<SearchProvider>(context, listen: false).getData(Provider.of<SearchProvider>(context, listen: false).searchItems);
-                              setState(() {
-                              _aecepies = RecepiesList(size: size);
-                              showSpinner = false;
-                              });},
-                      child: Text('Reset')
-                  ),
-
-                  // CupertinoPicker(
-                  //     itemExtent: ,
-                  //     onSelectedItemChanged: (selectedIndex) {
-                  //       print(selectedIndex);
-                  //     },
-                  //     children: ),
-
-                  //
-                  //
-
-                  ElevatedButton(
-                    child: Icon(Icons.navigate_next),
-                    onPressed:() async {
-                      setState(() {
-                        showSpinner = true;
-                        _aecepies = null;
-                      });
-                      Provider.of<SearchProvider>(context,listen: false).nextPage();
-                      await Provider.of<SearchProvider>(context, listen: false).getData(Provider.of<SearchProvider>(context, listen: false).searchItems);
-                      setState(() {
-                        _aecepies = RecepiesList(size: size);
-                        showSpinner = false;
-                      });
-
-                    } ,),
-
-                ],
+              //TODO : Заэкстрактить это
+              Container(
+                child: _navigation == null ? _navigation = Text('Search something!', style: TextStyle(color: Colors.purple,fontSize: 24.0, fontWeight: FontWeight.bold,)) : _navigation
               ),
 
                Divider(
@@ -157,7 +163,7 @@ class _HomePageStatefulState extends State<HomePageStateful> {
                  thickness: 2.0,
                ),
                Container(
-                 child: _aecepies == null ? _aecepies = Text('Search something!',style: TextStyle(color: Colors.purple,fontSize: 24.0, fontWeight: FontWeight.bold),) : _aecepies
+                 child: _aecepies == null ? _aecepies = Text('Try "chicken" or else',style: TextStyle(color: Colors.purple,fontSize: 16.0, fontWeight: FontWeight.bold),) : _aecepies
                ),
 
 

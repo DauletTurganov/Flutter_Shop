@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_magazin/ui/screens/cart_screen.dart';
 import 'package:internet_magazin/ui/screens/home_page.dart';
@@ -8,15 +9,20 @@ import 'package:provider/provider.dart';
 import 'package:internet_magazin/ui/screens/helpers/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => SearchProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<SearchProvider>(create: (context) => SearchProvider()),
+        ChangeNotifierProvider<Registration>(create: (context) => Registration())
+      ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
@@ -27,7 +33,7 @@ class MyApp extends StatelessWidget {
           HomePage.id: (context) => HomePage(),
           CartScreen.id: (context) => CartScreen(),
           ShowInfo.id: (context) => ShowInfo(),
-          ProfileScreen.id: (context) => CartScreen(),
+          ProfileScreen.id: (context) => ProfileScreen(),
           SearchScreen.id: (context) => SearchScreen(),
         }
       ),

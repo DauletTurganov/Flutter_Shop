@@ -10,7 +10,7 @@ class SearchBar extends StatelessWidget {
   String searchItem;
   SearchBar({
     Key key,this.searchText,this.searchItem,
-    @required this.size,
+    this.size
   }) : super(key: key);
 
   final double size;
@@ -19,8 +19,8 @@ class SearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // padding: EdgeInsets.only(top: 60.0, bottom: 5.0, left: 15.0, right: 15.0),
-      height: MediaQuery.of(context).size.height * 0.25,
-      width: size,
+      height: MediaQuery.of(context).size.height * 0.15,
+      // width: size,
       color: Color(0xff63117F),
       // decoration: BoxDecoration(
       //   gradient: LinearGradient(
@@ -28,15 +28,14 @@ class SearchBar extends StatelessWidget {
       //   ),
       // ),
       child: Padding(
-        padding: EdgeInsets.only(bottom: 15.0, left: 20.0, right: 20.0, top: 20.0),
+        padding: EdgeInsets.only(bottom: 15.0, left: 20.0, right: 20.0, top: 10.0),
         child: Stack(
 
             children: [
               Positioned(
-                  top: 35.0,
+                  top: 10.0,
                   right: -5,
                   child: IconButton(
-                    padding: EdgeInsets.only(right: 0),
                     onPressed: null,
                     icon: Icon(
                       Icons.photo_camera_outlined,

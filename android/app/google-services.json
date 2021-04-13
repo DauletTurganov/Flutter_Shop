@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "881960159103",
+    "project_id": "internet-magazin-47157",
+    "storage_bucket": "internet-magazin-47157.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:881960159103:android:b60576aa8a3195c98ffc4a",
+        "android_client_info": {
+          "package_name": "com.example.internet_magazin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "881960159103-jr690n0320fe60ae0k23fn71s2lstge6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvYLMjoNwNfCmakmtcETcKXiL391BIUes"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "881960159103-jr690n0320fe60ae0k23fn71s2lstge6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

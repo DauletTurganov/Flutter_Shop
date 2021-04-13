@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_magazin/ui/screens/profile_screen.dart';
 import 'package:internet_magazin/ui/screens/search_screen.dart';
 
 class NavBar extends StatelessWidget {
@@ -44,6 +45,6 @@ class NavIcon extends StatelessWidget {
         icon: iconName,
         color: Colors.grey[700],
         onPressed:  () {
-          Navigator.pushNamed(context, SearchScreen.id);});
+          Navigator.pushNamed(context, ProfileScreen.id);});
   }
 }

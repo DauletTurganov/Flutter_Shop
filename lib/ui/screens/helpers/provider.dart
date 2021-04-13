@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:internet_magazin/models/recipeModel.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'dart:convert';
 
@@ -44,6 +47,7 @@ class SearchProvider extends ChangeNotifier {
 
   // <List<Recipe>>
 
+
   Future getData(searchItem) async {
 
     print('getData function was invoked and going to search $_searchItems');
@@ -67,7 +71,10 @@ class SearchProvider extends ChangeNotifier {
         print(response.statusCode);
         RecipeItems recipe = RecipeItems.fromJson(jsonData);
         print(recipe);
+        print(recipe.count);
+        print(recipe.hits.length);
         print(recipe.hits[0].recipe.label);
+        recept = recipe;
         // Recipe recipe = Recipe.fromJson(jsonData)
         // jsonData['hits'].forEach((e) {
         //   // Recipe recipe = Recipe(
@@ -82,7 +89,6 @@ class SearchProvider extends ChangeNotifier {
         //   print(recipe.ingredientLines);
         //   print(jsonData['hits']);
         // });
-        recept = recipe;
         // _recipies.add(recept);
         // print(_recipies);
         // return _recipies;
@@ -117,37 +123,81 @@ class SearchProvider extends ChangeNotifier {
   }
 
   void nextPage() {
-    _from = _from + 10;
-    _to = _to + 10;
-    currentPage++;
+    if (recept != null) {
+      _from = _from + 10;
+      _to = _to + 10;
+      currentPage++;
+    } else {
+      print('Recept is null');
+    }
+
     // getData(_searchItems);
-    notifyListeners();
 }
 
 void previousPage() {
-    if( _from == 0) {
-      _from = 0;
-      _to = 10;
-    } else {
-      _from = _from - 10;
-      _to = _to - 10;
-      currentPage--;
+    if (recept != null) {
+      if( _from == 0) {
+        _from = 0;
+        _to = 10;
+      } else {
+        _from = _from - 10;
+        _to = _to - 10;
+        currentPage--;
+      }
     }
+
   // getData(_searchItems);
-  notifyListeners();
 }
 
-void chosePage() {
-    if (_from > 0) {
-      _from = _from * currentPage * 10;
-      _to = _to * currentPage * 10;
-    }
-}
+// void chosePage() {
+//     if (_from > 0) {
+//       _from = _from * currentPage * 10;
+//       _to = _to * currentPage * 10;
+//     }
+//
+// }
 
 void goToStart() {
-    _from = 0;
-    _to = 10;
-    notifyListeners();
+    if (recept != null) {
+      _from = 0;
+      _to = 10;
+    }
 }
+
+}
+
+class Cart extends ChangeNotifier {
+
+  List<RecipeItems> cart;
+
+
+
+}
+
+
+class Registration extends ChangeNotifier {
+
+  final _auth = FirebaseAuth.instance;
+  get auth => _auth;
+  String email;
+  String password;
+  bool _initialized = false;
+  bool userLoggedIn;
+
+  void initializeFlutterFire() async{
+    try {
+      // Wait for Firebase to initialize and set `_initialized` state to true
+      await Firebase.initializeApp();
+
+        _initialized = true;
+
+    } catch(e) {
+      // Set `_error` state to true if Firebase initialization fails
+
+        print(e);
+
+    }
+  }
+
 
 }

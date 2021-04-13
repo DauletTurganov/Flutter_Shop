@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:internet_magazin/ui/screens/cart_screen.dart';
 
 class ShowInfo extends StatefulWidget {
   static String id = 'show_info';
@@ -32,7 +33,7 @@ class _ShowInfoState extends State<ShowInfo> {
                           Colors.lightBlueAccent),
                     ),
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pushNamed(context, CartScreen.id);
                     },
                     child: Text('Add', style: TextStyle(color: Colors.blue)))
               ],
