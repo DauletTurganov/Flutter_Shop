@@ -36,6 +36,9 @@ class HomePage extends StatelessWidget {
             NavBar()
           ],
         ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //
+      // ),
       );
   }
 }
@@ -76,66 +79,72 @@ class _HomePageStatefulState extends State<HomePageStateful> {
                     });
                     try {
                       Provider.of<SearchProvider>(context, listen: false).changeSearchItem();
-                      await Provider.of<SearchProvider>(context, listen: false).getData(Provider.of<SearchProvider>(context, listen: false).searchItems);
-                      setState(() {
-                        _aecepies = RecepiesList(size: size);
-                        _navigation = Consumer<SearchProvider>(
-                            builder: (context, provider, child) {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
+                       // assert (Provider.of<SearchProvider>(context, listen: false).searchItems != null);
+                      if (Provider.of<SearchProvider>(context, listen: false).searchItems != null) {
 
-                                  ElevatedButton(
-                                      child: Icon(Icons.navigate_before),
-                                      onPressed: () async{
-                                        setState(() {
-                                          showSpinner = true;
-                                          _aecepies = Text('Previuos Page',style: TextStyle(color: Colors.purple,fontSize: 24.0, fontWeight: FontWeight.bold),);
-                                        });
-                                        provider.previousPage();
-                                        await provider.getData(provider.searchItems);
-                                        setState(() {
-                                          _aecepies = RecepiesList(size: size);
-                                          showSpinner = false;
-                                        });
-                                      }
-                                  ),
-                                  ElevatedButton(
-                                      onPressed: () async{
-                                        setState(() {
-                                          showSpinner = true;
-                                          _aecepies = Text('Reset',style: TextStyle(color: Colors.purple,fontSize: 24.0, fontWeight: FontWeight.bold),);
-                                        });
-                                        provider.goToStart();
-                                        await provider.getData(provider.searchItems);
-                                        setState(() {
-                                          _aecepies = RecepiesList(size: size);
-                                          showSpinner = false;
-                                        });},
-                                      child: Text('Reset')
-                                  ),
-                                  ElevatedButton(
-                                    child: Icon(Icons.navigate_next),
-                                    onPressed:() async {
-                                      setState(() {
-                                        showSpinner = true;
-                                        _aecepies = Text('Next Page',style: TextStyle(color: Colors.purple,fontSize: 24.0, fontWeight: FontWeight.bold),);
-                                      });
-                                      provider.nextPage();
-                                      await provider.getData(provider.searchItems);
-                                      // await provider.getData(provider.searchItems);
-                                      setState(() {
-                                        _aecepies = RecepiesList(size: size);
-                                        showSpinner = false;
-                                      });
-                                    } ,),
-                                ],
-                              );
-                            }
+                        await Provider.of<SearchProvider>(context, listen: false).getData(Provider.of<SearchProvider>(context, listen: false).searchItems);
+                        setState(() {
+                          _aecepies = RecepiesList(size: size);
+                          _navigation = Consumer<SearchProvider>(
+                              builder: (context, provider, child) {
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
 
-                        );
-                        showSpinner = false;
-                      });
+                                    ElevatedButton(
+                                        child: Icon(Icons.navigate_before),
+                                        onPressed: () async{
+                                        //   setState(() {
+                                        //     showSpinner = true;
+                                        //     _aecepies = Text('Previuos Page',style: TextStyle(color: Colors.purple,fontSize: 24.0, fontWeight: FontWeight.bold),);
+                                        //   });
+                                        //   provider.previousPage();
+                                        //   await provider.getData(provider.searchItems);
+                                        //   setState(() {
+                                        //     _aecepies = RecepiesList(size: size);
+                                        //     showSpinner = false;
+                                        //   });
+                                        }
+                                    ),
+                                    ElevatedButton(
+                                        onPressed: () async{
+                                          // setState(() {
+                                          //   showSpinner = true;
+                                          //   _aecepies = Text('Reset',style: TextStyle(color: Colors.purple,fontSize: 24.0, fontWeight: FontWeight.bold),);
+                                          // });
+                                          // provider.goToStart();
+                                          // await provider.getData(provider.searchItems);
+                                          // setState(() {
+                                          //   _aecepies = RecepiesList(size: size);
+                                          //   showSpinner = false;
+                                          // });
+                                          },
+                                        child: Text('Reset')
+                                    ),
+                                    ElevatedButton(
+                                      child: Icon(Icons.navigate_next),
+                                      onPressed:() async {
+                                        // setState(() {
+                                        //   showSpinner = true;
+                                        //   _aecepies = Text('Next Page',style: TextStyle(color: Colors.purple,fontSize: 24.0, fontWeight: FontWeight.bold),);
+                                        // });
+                                        // provider.nextPage();
+                                        // await provider.getData(provider.searchItems);
+                                        // // await provider.getData(provider.searchItems);
+                                        // setState(() {
+                                        //   _aecepies = RecepiesList(size: size);
+                                        //   showSpinner = false;
+                                        // });
+                                      } ,),
+                                  ],
+                                );
+                              }
+
+                          );
+                          showSpinner = false;
+                        });
+                      }
+
                     }
                     catch(e) {
                       throw (e);

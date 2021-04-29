@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:internet_magazin/models/recipeModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'dart:convert';
@@ -177,27 +176,72 @@ class Cart extends ChangeNotifier {
 
 class Registration extends ChangeNotifier {
 
-  final _auth = FirebaseAuth.instance;
-  get auth => _auth;
-  String email;
-  String password;
+  // final _auth = FirebaseAuth.instance;
+  // //     .authStateChanges()
+  // //     .listen((User user) {
+  // //   if (user == null) {
+  // //     print('User is currently signed out!');
+  // //   } else {
+  // //     print('User is signed in!');
+  // //   }
+  // // });
+  //
+  //
+  //
+  // get auth => _auth;
+  String _email;
+  String _password;
   bool _initialized = false;
   bool userLoggedIn;
 
-  void initializeFlutterFire() async{
-    try {
-      // Wait for Firebase to initialize and set `_initialized` state to true
-      await Firebase.initializeApp();
+  // void setEmail(value) {
+  //   _email = value;
+  //   print(_email);
+  // }
+  //
+  //
+  //
+  // void setPassword(value) {
+  //   _password = value;
+  //   print(_password);
+  // }
 
-        _initialized = true;
+  // void register(email, password) async{
+  //   _email = email;
+  //   _password = _password;
 
-    } catch(e) {
-      // Set `_error` state to true if Firebase initialization fails
+  //   try {
+  //     UserCredential userCredential =
+  //     await FirebaseAuth.instance.createUserWithEmailAndPassword(
+  //         email: _email, password: _password
+  //     );
+  //       print('succes');
+  //   } on FirebaseAuthException catch(e) {
+  //     if (e.code == 'weak-password') {
+  //       print('The password provided is too weak.');
+  //     } else if (e.code == 'email-already-in-use') {
+  //       print('The account already exists for that email.');
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
-        print(e);
 
-    }
-  }
+  // void initializeFlutterFire() async{
+  //   try {
+  //     // Wait for Firebase to initialize and set `_initialized` state to true
+  //     await Firebase.initializeApp();
+  //       _initialized = true;
+  //
+  //   } catch(e) {
+  //     // Set `_error` state to true if Firebase initialization fails
+  //
+  //       print(e);
+  //
+  //   }
+  // }
+
 
 
 }
