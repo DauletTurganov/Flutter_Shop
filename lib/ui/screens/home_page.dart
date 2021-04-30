@@ -72,6 +72,7 @@ class _HomePageStatefulState extends State<HomePageStateful> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
+                //TODO: Refactorit vse ento
                 // height: size * 0.5,
                 child:  ElevatedButton(
                   style: ButtonStyle(
