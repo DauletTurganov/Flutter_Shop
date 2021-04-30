@@ -7,7 +7,7 @@ import 'package:internet_magazin/ui/screens/profile_screen.dart';
 import 'package:internet_magazin/ui/screens/search_screen.dart';
 import 'package:internet_magazin/ui/screens/showInfo.dart';
 import 'package:provider/provider.dart';
-import 'package:internet_magazin/ui/screens/helpers/provider.dart';
+import 'file:///S:/AndroidPRojects/internet_magazin/lib/providers/provider.dart';
 import 'package:internet_magazin/ui/screens/portfolio_page.dart';
 
 void main() async{

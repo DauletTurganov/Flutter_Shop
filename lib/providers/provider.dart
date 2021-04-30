@@ -69,10 +69,10 @@ class SearchProvider extends ChangeNotifier {
       if (jsonData['more'] == true) {
         print(response.statusCode);
         RecipeItems recipe = RecipeItems.fromJson(jsonData);
-        print(recipe);
-        print(recipe.count);
-        print(recipe.hits.length);
-        print(recipe.hits[0].recipe.label);
+        // print(recipe);
+        // print(recipe.count);
+        // print(recipe.hits.length);
+        // print(recipe.hits[0].recipe.label);
         recept = recipe;
         // Recipe recipe = Recipe.fromJson(jsonData)
         // jsonData['hits'].forEach((e) {

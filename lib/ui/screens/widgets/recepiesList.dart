@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:internet_magazin/ui/screens/helpers/provider.dart';
+import 'file:///S:/AndroidPRojects/internet_magazin/lib/providers/provider.dart';
 import 'package:internet_magazin/ui/screens/showInfo.dart';
 
 class RecepiesList extends StatelessWidget {

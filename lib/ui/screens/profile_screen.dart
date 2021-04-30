@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'helpers/provider.dart';
+import '../../providers/provider.dart';
 import 'package:internet_magazin/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
